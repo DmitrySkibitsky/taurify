@@ -26,7 +26,6 @@ async function greet() {
 
     <form
       class="row"
-      test=""
       @submit.prevent="greet"
     >
       <input
