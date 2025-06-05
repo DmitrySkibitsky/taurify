@@ -1,7 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { ref } from 'vue';
+
+  const userName = ref('Admin User');
+</script>
 
 <template>
-  <v-card text="test" variant="tonal" @click="() => {}"></v-card>
+
+  <v-card
+    :text="userName"
+    @click="() => {}"
+  ></v-card>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
+
