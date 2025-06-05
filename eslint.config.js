@@ -6,10 +6,6 @@ import js from '@eslint/js';
 import vueParser from 'vue-eslint-parser';
 import prettierPlugin from 'eslint-plugin-prettier';
 import eslintPluginImport from 'eslint-plugin-import';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
@@ -19,8 +15,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
-        project: './tsconfig.eslint.json',
+        project: './tsconfig.json',
       },
       globals: globals.browser,
     },
@@ -31,7 +26,7 @@ export default [
     settings: {
       'import/resolver': {
         typescript: {
-          project: './tsconfig.eslint.json',
+          project: './tsconfig.json',
         },
       },
     },
@@ -50,8 +45,7 @@ export default [
         sourceType: 'module',
         extraFileExtensions: ['.vue'],
         parser: typescriptEslint.parser,
-        tsconfigRootDir: __dirname,
-        project: './tsconfig.eslint.json',
+        project: './tsconfig.json',
       },
       globals: globals.browser,
     },
@@ -64,7 +58,7 @@ export default [
     settings: {
       'import/resolver': {
         typescript: {
-          project: './tsconfig.eslint.json',
+          project: './tsconfig.json',
         },
       },
     },
