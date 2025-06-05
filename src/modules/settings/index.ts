@@ -1,0 +1,14 @@
+import { settingsRoutes } from '@/modules/settings/routes.ts';
+import { useSettingsStore } from '@/modules/settings/store/settings.ts';
+
+export default {
+  routes: settingsRoutes,
+  stores: [useSettingsStore],
+  async init(): Promise<any> {
+    return new Promise((resolve): void => {
+      const message: string = '[settings] Module initialized';
+
+      resolve(message);
+    });
+  },
+};
