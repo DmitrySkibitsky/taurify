@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
-  import { useAuthStore } from '@/modules/user/stores/auth.ts';
+  import { useUserStore } from '@/modules/user/stores/user.ts';
 
-  const authStore = useAuthStore();
+  const userStore = useUserStore();
 
   onMounted(async () => {
     const code = new URLSearchParams(window.location.search).get('code');
@@ -11,7 +11,7 @@
       return;
     }
 
-    await authStore.fetchAccessToken({
+    await userStore.fetchAccessToken({
       code,
     });
   });

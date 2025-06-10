@@ -6,7 +6,7 @@ import {
 import { AxiosError } from 'axios';
 import { USER_API } from '@/modules/user/services';
 
-export const useAuthStore = defineStore('authStore', {
+export const useUserStore = defineStore('userStore', {
   state: () => ({
     accessToken: null as FetchAccessTokenResponse | null,
   }),
