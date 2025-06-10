@@ -1,17 +1,17 @@
 <script setup lang="ts">
-  import { useAppStore } from '@/store/app';
   import { useRouter } from 'vue-router';
+  import { USER_API } from '@/modules/user/services';
 
-  const appStore = useAppStore();
   const router = useRouter();
+
+  const loginWithSpotify = (): void => {
+    USER_API.auth.login();
+  };
 </script>
 
 <template>
 
-  <v-card
-    :text="appStore.count"
-    @click="appStore.count++"
-  ></v-card>
+  <v-btn @click="loginWithSpotify"> Sign in </v-btn>
 
   <div style="margin-top: 20px"></div>
 

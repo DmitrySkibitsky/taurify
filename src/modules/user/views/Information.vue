@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { useUserStore } from '@/modules/user/store/user.ts';
+  import { useAuthStore } from '@/modules/user/stores/auth.ts';
 
-  const { user } = useUserStore();
+  const { user } = useAuthStore();
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import { settingsRoutes } from '@/modules/settings/routes.ts';
-import { useSettingsStore } from '@/modules/settings/store/settings.ts';
+import { useSettingsStore } from '@/modules/settings/stores/settings.ts';
 
 export default {
   routes: settingsRoutes,
