@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
     // 2. tauri expects a fixed port, fail if that port is not available
     server: {
       port: 1420,
-      // allowedHosts: ['a26f-109-227-69-28.ngrok-free.app'],
+      allowedHosts: [env.VITE_ALLOWED_HOST],
       strictPort: true,
       host: host || false,
       hmr: host
