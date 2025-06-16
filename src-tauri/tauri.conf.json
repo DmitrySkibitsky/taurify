@@ -21,6 +21,16 @@
       "csp": null
     }
   },
+  "plugins": {
+    "deep-link": {
+      "mobile": [
+        { "host": "com.taurify.app", "pathPrefix": ["/open"] }
+      ],
+      "desktop": {
+        "schemes": ["taurify"]
+      }
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
