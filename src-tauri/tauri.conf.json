@@ -24,7 +24,8 @@
   "plugins": {
     "deep-link": {
       "mobile": [
-        { "host": "com.taurify.app", "pathPrefix": ["/open"] }
+        { "host": "taurify-api-vsrii.ondigitalocean.app", "pathPrefix": ["/open"] },
+        { "host": "taurify-api-vsrii.ondigitalocean.app"}
       ],
       "desktop": {
         "schemes": ["taurify"]

@@ -1,39 +1,55 @@
-import http from '@/app/services/api.ts';
-import { APIResponse } from '@/app/services/types.ts';
-import { FetchAccessTokenRequest, FetchAccessTokenResponse } from './types';
+import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { getCurrentWebview } from '@tauri-apps/api/webview';
 
 const accountsURI = import.meta.env.VITE_SPOTIFY_ACCOUNT_URI;
 const redirectURI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 
-const login = (): void => {
+const getAuthUri = (): string => {
   const url = new URL(`${accountsURI}/authorize`);
   url.searchParams.set('client_id', import.meta.env.VITE_SPOTIFY_CLIENT_ID);
   url.searchParams.set('response_type', 'code');
   url.searchParams.set('redirect_uri', redirectURI);
   url.searchParams.set('scope', import.meta.env.VITE_SPOTIFY_SCOPES);
 
-  window.location.href = url.toString();
+  return url.toString();
 };
 
-const fetchAccessToken = async (
-  request: FetchAccessTokenRequest
-): Promise<APIResponse<FetchAccessTokenResponse>> => {
-  const data = {
-    code: request.code,
-    redirect_uri: redirectURI,
-    grant_type: 'authorization_code',
-  };
+const login = async (): Promise<void> => {
+  const authWindow = new WebviewWindow('spotify-auth', {
+    url: getAuthUri(),
+    width: 500,
+    height: 700,
+    resizable: false,
+    title: 'Spotify Authorization',
+  });
 
-  return await http.post(`${accountsURI}/api/token`, data, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+  authWindow.once('tauri://url', (event) => {
+    console.log('Auth window navigated to allowed URL:', event.payload);
+    const url = new URL(event.payload as string);
+    console.log(url.toString());
+    const accessToken = url.searchParams.get('access_token');
+    const refreshToken = url.searchParams.get('refresh_token');
+
+    if (accessToken && refreshToken) {
+      console.log('Received tokens:', accessToken, refreshToken);
+      authWindow.close();
+    }
+  });
+
+  authWindow.once('tauri://created', async function () {
+    console.log('Spotify Authorization');
+    await getCurrentWindow().center();
+    await getCurrentWebview().listen('auth_complete', ({ event, payload }) => {
+      console.log(event);
+      console.log(payload);
+    });
+  });
+  authWindow.once('tauri://error', function (e) {
+    console.error(e);
   });
 };
 
-// @todo It is necessary to add cached token and refresh token
-
 export default {
   login,
-  fetchAccessToken,
 };

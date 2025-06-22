@@ -6,9 +6,9 @@ export const userRoutes: RouteRecordRaw[] = [
     component: () => import('@/app/Layout.vue'),
     children: [
       {
-        path: 'auth/callback',
-        name: 'user.auth.callback',
-        component: () => import('./views/Callback.vue'),
+        path: 'login',
+        name: 'user.login',
+        component: () => import('./views/auth/Login.vue'),
       },
       {
         path: 'information',
