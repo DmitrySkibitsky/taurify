@@ -12,15 +12,17 @@ struct Payload {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
+    .plugin(tauri_plugin_store::Builder::new().build())
+    .plugin(tauri_plugin_log::Builder::new().build())
     .plugin(tauri_plugin_deep_link::init())
     .plugin(tauri_plugin_opener::init())
     .plugin(single_instance_init(|app: &AppHandle, argv, cwd| {
       let _ = app.emit("single-instance", Payload { args: argv, cwd });
     }))
     .setup(|app| {
-        app.deep_link().on_open_url(|event| {
-            println!("deep link URLs: {:?}", event.urls());
-        });
+//         app.deep_link().on_open_url(|event| {
+//             println!("deep link URLs: {:?}", event.urls());
+//         });
 
         #[cfg(any(windows, target_os = "linux"))]
         {

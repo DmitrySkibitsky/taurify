@@ -34,6 +34,14 @@ export default [
       ...js.configs.recommended.rules,
       ...typescriptEslint.configs.recommended[0].rules,
       '@typescript-eslint/explicit-function-return-type': 'error',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {

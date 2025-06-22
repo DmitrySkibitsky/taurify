@@ -1,14 +1,21 @@
 import { defineStore } from 'pinia';
 import { AccessTokenDTO } from '@/modules/user/services/auth/types.ts';
+import { USER_API } from '@/modules/user/services';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
+    isLoggedIn: false as boolean,
     accessToken: null as AccessTokenDTO | null,
   }),
-
   actions: {
-    setAccessToken(data: AccessTokenDTO): void {
+    updateAuthStatus(status: boolean): void {
+      this.isLoggedIn = status;
+    },
+    async setAccessToken(data: AccessTokenDTO): Promise<void> {
       this.accessToken = data;
+      this.updateAuthStatus(true);
+
+      await USER_API.storage.user.saveAccessToken(data);
     },
   },
 });
