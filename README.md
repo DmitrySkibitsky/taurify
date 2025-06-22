@@ -8,7 +8,7 @@
 - Build Tool: Vite
 
 ### Development Setup
-### Prerequisites
+#### Prerequisites
 - Node.js >= 18.12 
 - Rust (latest stable)
 - pnpm (package manager)
