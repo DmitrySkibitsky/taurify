@@ -21,6 +21,17 @@
       "csp": null
     }
   },
+  "plugins": {
+    "deep-link": {
+      "mobile": [
+        { "host": "taurify-api-vsrii.ondigitalocean.app", "pathPrefix": ["/open"] },
+        { "host": "taurify-api-vsrii.ondigitalocean.app"}
+      ],
+      "desktop": {
+        "schemes": ["taurify"]
+      }
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
