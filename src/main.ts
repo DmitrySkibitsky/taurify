@@ -1,26 +1,17 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import './styles/index.css';
+import './styles/globals.css';
 
 import { info } from '@tauri-apps/plugin-log';
 import { loadModules } from './utils/loadModules';
 
-import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-
 import App from './app/App.vue';
-
-const vuetify = createVuetify({
-  components,
-  directives,
-});
 
 const app = createApp(App);
 const pinia = createPinia();
 
-app.use(vuetify);
 app.use(pinia);
 
 const enabledModules: string[] = ['user', 'settings'];
@@ -35,7 +26,7 @@ for (const module of modules) {
   }
 
   if (module.stores && Array.isArray(module.stores) && module.stores.length) {
-    module.stores.forEach((store: any) => {
+    module.stores.forEach((store: Function) => {
       store();
     });
   }

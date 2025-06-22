@@ -4,7 +4,7 @@ import { useUserStore } from '@/modules/user/stores/user.ts';
 export default {
   routes: userRoutes,
   stores: [useUserStore],
-  async init(): Promise<any> {
+  async init(): Promise<string> {
     return new Promise((resolve): void => {
       const message: string = '[user] Module initialized';
 

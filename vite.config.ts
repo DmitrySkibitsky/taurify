@@ -1,7 +1,9 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import path from 'path';
+import oxlintPlugin from 'vite-plugin-oxlint';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -10,7 +12,15 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    plugins: [vue(), vueDevTools()],
+    plugins: [
+      vue(),
+      vueDevTools(),
+      tailwindcss(),
+      oxlintPlugin({
+        configFile: '.oxlintrc.json',
+        path: 'src',
+      }),
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),

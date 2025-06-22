@@ -4,7 +4,7 @@ import { useSettingsStore } from '@/modules/settings/stores/settings.ts';
 export default {
   routes: settingsRoutes,
   stores: [useSettingsStore],
-  async init(): Promise<any> {
+  async init(): Promise<string> {
     return new Promise((resolve): void => {
       const message: string = '[settings] Module initialized';
 

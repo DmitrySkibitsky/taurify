@@ -7,7 +7,7 @@ export default {
   bracketSameLine: false,
   vueIndentScriptAndStyle: true,
   printWidth: 80,
-  plugins: ['prettier-plugin-vue'],
+  plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-vue'],
   singleAttributePerLine: true,
   htmlWhitespaceSensitivity: 'ignore',
 };
