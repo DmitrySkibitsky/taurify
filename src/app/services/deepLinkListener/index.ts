@@ -1,3 +1,4 @@
+// oxlint-disable no-unused-vars
 import { useUserStore } from '@/modules/user/stores/user.ts';
 import {
   getCurrent as getCurrentDeepLinkUrls,
