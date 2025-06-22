@@ -19,23 +19,17 @@ const allRoutes: RouteRecordRaw[] = [];
 const modules = await loadModules(enabledModules);
 
 for (const module of modules) {
-  if (module.routes) {
-    for (const route of module.routes) {
-      allRoutes.push(route);
-    }
+  for (const route of module.routes) {
+    allRoutes.push(route);
   }
 
-  if (module.stores && Array.isArray(module.stores) && module.stores.length) {
-    module.stores.forEach((store: Function) => {
-      store();
-    });
-  }
+  module.stores.forEach((store: Function) => {
+    store();
+  });
 
-  if (module.init) {
-    const message: string = await module.init();
+  const message: string = await module.init();
 
-    await info(message);
-  }
+  await info(message);
 }
 
 const router = createRouter({

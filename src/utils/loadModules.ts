@@ -1,5 +1,7 @@
-export async function loadModules(moduleNames: string[]): Promise<object[]> {
-  const modules: object[] = [];
+import { AppModule } from '@/app/module/types.ts';
+
+export async function loadModules(moduleNames: string[]): Promise<AppModule[]> {
+  const modules: AppModule[] = [];
 
   for (const moduleName of moduleNames) {
     const module = await import(`@/modules/${moduleName}/index.ts`);
