@@ -1,40 +1,21 @@
 import { defineStore } from 'pinia';
-import {
-  FetchAccessTokenRequest,
-  FetchAccessTokenResponse,
-} from '@/modules/user/services/auth/types.ts';
-import { AxiosError } from 'axios';
+import { AccessTokenDTO } from '@/modules/user/services/auth/types.ts';
 import { USER_API } from '@/modules/user/services';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
-    accessToken: null as FetchAccessTokenResponse | null,
+    isLoggedIn: false as boolean,
+    accessToken: null as AccessTokenDTO | null,
   }),
-
   actions: {
-    setAccessToken(data: FetchAccessTokenResponse): void {
-      this.accessToken = data;
+    updateAuthStatus(status: boolean): void {
+      this.isLoggedIn = status;
     },
-    async fetchAccessToken(request: FetchAccessTokenRequest) {
-      try {
-        const { data, status } = await USER_API.auth.fetchAccessToken({
-          code: request.code,
-        });
+    async setAccessToken(data: AccessTokenDTO): Promise<void> {
+      this.accessToken = data;
+      this.updateAuthStatus(true);
 
-        if (status === 200) {
-          this.setAccessToken(data);
-
-          return {
-            status,
-          };
-        }
-      } catch (error) {
-        const _error = error as AxiosError<string>;
-
-        return {
-          status: _error.response?.status,
-        };
-      }
+      await USER_API.storage.user.saveAccessToken(data);
     },
   },
 });

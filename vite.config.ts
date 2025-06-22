@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import path from 'path';
 
-// @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
@@ -17,6 +16,12 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, 'src'),
       },
     },
+    esbuild: {
+      target: 'esnext',
+    },
+    build: {
+      target: 'esnext',
+    },
 
     // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
     //
@@ -25,7 +30,7 @@ export default defineConfig(({ mode }) => {
     // 2. tauri expects a fixed port, fail if that port is not available
     server: {
       port: 1420,
-      // allowedHosts: ['a26f-109-227-69-28.ngrok-free.app'],
+      allowedHosts: [env.VITE_ALLOWED_HOST],
       strictPort: true,
       host: host || false,
       hmr: host

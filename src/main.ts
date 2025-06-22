@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
+import { info } from '@tauri-apps/plugin-log';
 import { loadModules } from './utils/loadModules';
 
 import 'vuetify/styles';
@@ -41,7 +42,8 @@ for (const module of modules) {
 
   if (module.init) {
     const message: string = await module.init();
-    console.log(message);
+
+    await info(message);
   }
 }
 
