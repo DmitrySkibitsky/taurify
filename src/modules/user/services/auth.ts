@@ -1,11 +1,11 @@
-import { openUrl } from '@tauri-apps/plugin-opener';
 import http from '@/app/services/api.ts';
-import { AccessTokenDTO } from '@/modules/user/services/auth/types.ts';
 import { USER_API } from '@/modules/user/services';
-import { isTokenExpired } from '@/modules/user/utils/auth.ts';
-import { DateTime } from 'luxon';
+import { AccessTokenDTO } from '@/modules/user/services/types/auth.ts';
 import { useUserStore } from '@/modules/user/stores/user.ts';
+import { isTokenExpired } from '@/modules/user/utils/auth.ts';
 import { info } from '@tauri-apps/plugin-log';
+import { openUrl } from '@tauri-apps/plugin-opener';
+import { DateTime } from 'luxon';
 
 const accountsURI = import.meta.env.VITE_SPOTIFY_ACCOUNT_URI;
 const redirectURI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
@@ -62,7 +62,7 @@ const refreshToken = async (
 
 const checkAndRefreshToken = async (): Promise<void> => {
   const accessToken: AccessTokenDTO | undefined =
-    await USER_API.storage.user.getAccessToken();
+    await USER_API.userStorage.getAccessToken();
 
   if (accessToken) {
     const tokenExpired: boolean = isTokenExpired(accessToken);
@@ -74,7 +74,7 @@ const checkAndRefreshToken = async (): Promise<void> => {
         await refreshToken(accessToken);
 
       if (!newAccessToken) {
-        await USER_API.storage.user.resetAccessToken();
+        await USER_API.userStorage.resetAccessToken();
       }
     }
   }

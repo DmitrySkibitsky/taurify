@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { AccessTokenDTO } from '@/modules/user/services/auth/types.ts';
 import { USER_API } from '@/modules/user/services';
+import { AccessTokenDTO } from '@/modules/user/services/types/auth.ts';
+import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -15,7 +15,7 @@ export const useUserStore = defineStore('userStore', {
       this.accessToken = data;
       this.updateAuthStatus(true);
 
-      await USER_API.storage.user.saveAccessToken(data);
+      await USER_API.userStorage.saveAccessToken(data);
     },
   },
 });

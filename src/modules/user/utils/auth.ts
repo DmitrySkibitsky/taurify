@@ -1,4 +1,4 @@
-import { AccessTokenDTO } from '@/modules/user/services/auth/types.ts';
+import { AccessTokenDTO } from '@/modules/user/services/types/auth';
 import { DateTime } from 'luxon';
 
 export function isTokenExpired(accessTokenDTO: AccessTokenDTO): boolean {

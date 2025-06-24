@@ -1,14 +1,14 @@
 // oxlint-disable no-unused-vars
+import { USER_API } from '@/modules/user/services';
 import { useUserStore } from '@/modules/user/stores/user.ts';
+import { UnlistenFn } from '@tauri-apps/api/event';
+import { getCurrentWebview } from '@tauri-apps/api/webview';
 import {
   getCurrent as getCurrentDeepLinkUrls,
   onOpenUrl,
 } from '@tauri-apps/plugin-deep-link';
-import { getCurrentWebview } from '@tauri-apps/api/webview';
-import { UnlistenFn } from '@tauri-apps/api/event';
-import { DateTime } from 'luxon';
 import { error, info } from '@tauri-apps/plugin-log';
-import { USER_API } from '@/modules/user/services';
+import { DateTime } from 'luxon';
 
 let unlistenFn: null | UnlistenFn;
 

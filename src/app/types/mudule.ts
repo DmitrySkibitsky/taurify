@@ -1,5 +1,5 @@
-import { RouteRecordRaw } from 'vue-router';
 import { StoreDefinition } from 'pinia';
+import { RouteRecordRaw } from 'vue-router';
 
 export type AppModule = {
   routes: RouteRecordRaw[];

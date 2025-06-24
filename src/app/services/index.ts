@@ -1,7 +1,7 @@
-import common from './common';
+import app from './app';
 import deepLinkListener from './deepLinkListener';
 
 export const APP_API = {
-  common,
+  app,
   deepLinkListener,
 };
