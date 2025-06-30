@@ -12,6 +12,7 @@
     "core:window:allow-center",
     "deep-link:default",
     "store:default",
-    "log:default"
+    "log:default",
+    "core:webview:allow-set-webview-zoom"
   ]
 }

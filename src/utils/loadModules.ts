@@ -1,4 +1,4 @@
-import { AppModule } from '@/app/module/types.ts';
+import { AppModule } from '@/app/types/mudule';
 
 export async function loadModules(moduleNames: string[]): Promise<AppModule[]> {
   const modules: AppModule[] = [];
