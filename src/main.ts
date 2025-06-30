@@ -2,15 +2,17 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
+import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import 'vuetify/styles';
 
 import { info } from '@tauri-apps/plugin-log';
 import { loadModules } from './utils/loadModules';
 
+import AppLayout from '@/app/components/AppLayout.vue';
 import App from './app/App.vue';
 
 const app = createApp(App);
@@ -87,6 +89,11 @@ app.use(vuetify);
 const enabledModules: string[] = ['user', 'settings'];
 const allRoutes: RouteRecordRaw[] = [];
 const modules = await loadModules(enabledModules);
+
+allRoutes.push({
+  path: '/',
+  component: AppLayout,
+});
 
 for (const module of modules) {
   for (const route of module.routes) {

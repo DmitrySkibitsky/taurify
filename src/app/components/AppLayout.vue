@@ -25,7 +25,7 @@
 
   const theme = useTheme();
   const toggleTheme = () => {
-    SETTINGS_API.app.toggleTheme(theme);
+    SETTINGS_API.theme.toggleTheme(theme);
   };
 
   const setZoom = async () => {
@@ -39,10 +39,7 @@
 
     <AppBar />
 
-    <VMain
-      class="d-flex align-center justify-center"
-      height="300"
-    >
+    <VMain>
       <VContainer>
         <VBtn @click="toggleTheme">Theme</VBtn>
 
@@ -54,14 +51,6 @@
         >
           Sign In
         </VBtn>
-
-        <VSheet
-          border="dashed md"
-          color="surface-light"
-          height="200"
-          rounded="lg"
-          width="100%"
-        ></VSheet>
 
         <RouterView />
       </VContainer>
