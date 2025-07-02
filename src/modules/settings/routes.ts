@@ -4,6 +4,12 @@ export const settingsRoutes: RouteRecordRaw[] = [
   {
     path: '/settings',
     component: () => import('@/app/components/AppLayout.vue'),
-    children: [],
+    children: [
+      {
+        path: '/',
+        component: () => import('@/modules/settings/views/AppSettings.vue'),
+        name: 'settings.app_settings',
+      },
+    ],
   },
 ];

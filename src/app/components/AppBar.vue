@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import AccountMenu from '@/app/components/AccountMenu.vue';
   import { useSettingsStore } from '@/modules/settings/stores/settings';
   import { storeToRefs } from 'pinia';
 
@@ -7,8 +8,14 @@
 </script>
 
 <template>
-  <VAppBar>
+  <VAppBar
+    border="b"
+    class="ps-4"
+    flat
+  >
     <VAppBarNavIcon @click="sidebarIsOpened = !sidebarIsOpened" />
     <VAppBarTitle>Application</VAppBarTitle>
+    <VSpacer />
+    <AccountMenu />
   </VAppBar>
 </template>
