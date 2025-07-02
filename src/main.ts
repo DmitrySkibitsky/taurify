@@ -93,6 +93,7 @@ const modules = await loadModules(enabledModules);
 allRoutes.push({
   path: '/',
   component: AppLayout,
+  name: 'index',
 });
 
 for (const module of modules) {

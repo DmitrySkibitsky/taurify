@@ -3,15 +3,19 @@ import { defineStore } from 'pinia';
 
 export const useSettingsStore = defineStore('settingsStore', {
   state: () => ({
-    sidebarIsOpened: false as boolean,
+    sidebarIsOpened: true as boolean,
     appTheme: null as ITheme | null,
+    zoomValue: 1 as number,
   }),
   actions: {
-    setAppTheme(theme: ITheme) {
+    setAppTheme(theme: ITheme): void {
       this.appTheme = theme;
     },
-    setSidebarIsOpened(value: boolean) {
+    setSidebarIsOpened(value: boolean): void {
       this.sidebarIsOpened = value;
+    },
+    setZoomValue(value: number): void {
+      this.zoomValue = value;
     },
   },
 });

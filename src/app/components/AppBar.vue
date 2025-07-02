@@ -8,7 +8,11 @@
 </script>
 
 <template>
-  <VAppBar>
+  <VAppBar
+    border="b"
+    class="ps-4"
+    flat
+  >
     <VAppBarNavIcon @click="sidebarIsOpened = !sidebarIsOpened" />
     <VAppBarTitle>Application</VAppBarTitle>
     <VSpacer />

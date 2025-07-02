@@ -1,3 +1,4 @@
+import { AppStorage, createStorage, File } from '@/app/services/storage.ts';
 import { useSettingsStore } from '@/modules/settings/stores/settings.ts';
 import { ThemeInstance } from 'vuetify/lib/types.mjs';
 
@@ -10,6 +11,16 @@ export interface ITheme {
   key: ThemeEnum;
   name: string;
 }
+
+let storage: AppStorage | null = null;
+
+const getStorage = async (): Promise<AppStorage> => {
+  if (storage === null) {
+    storage = await createStorage(File.Settings);
+  }
+
+  return storage;
+};
 
 export class ThemeService {
   #themes: ITheme[] = [
@@ -54,11 +65,32 @@ export class ThemeService {
     themeInstance.global.name.value = isDark ? ThemeEnum.LIGHT : ThemeEnum.DARK;
   }
 
-  public setTheme(themeInstance: ThemeInstance, theme: ITheme): void {
+  public async setTheme(
+    themeInstance: ThemeInstance,
+    theme: ITheme
+  ): Promise<void> {
     themeInstance.global.name.value = theme.key;
 
     const settingsStore = useSettingsStore();
     settingsStore.setAppTheme(theme);
+
+    storage = await getStorage();
+
+    await storage.set('appTheme', theme.key);
+  }
+
+  public async init(themeInstance: ThemeInstance): Promise<void> {
+    storage = await getStorage();
+
+    const themeKey: ThemeEnum | undefined = await storage.get('appTheme');
+
+    if (themeKey === undefined) {
+      return;
+    }
+
+    const theme: ITheme = this.getThemeByKey(themeKey);
+
+    await this.setTheme(themeInstance, theme);
   }
 }
 
