@@ -3,6 +3,7 @@ import { load, Store } from '@tauri-apps/plugin-store';
 export enum File {
   User = 'user.json',
   Settings = 'settings.json',
+  deepLinks = 'deepLinks.json',
 }
 
 export class AppStorage {

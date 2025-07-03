@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { MenuItem } from '@/app/types/menu.ts';
+  import { useUserStore } from '@/modules/user/stores/user.ts';
   import { ref } from 'vue';
 
   const links = ref<MenuItem[]>([
@@ -11,6 +12,8 @@
       },
     },
   ]);
+
+  const userStore = useUserStore();
 </script>
 
 <template>
@@ -22,7 +25,7 @@
   >
     <VAvatar
       color="surface-light"
-      image="https://cdn.vuetifyjs.com/images/john.png"
+      :image="userStore.userProfile?.images[0]?.url"
       size="32"
     />
 
