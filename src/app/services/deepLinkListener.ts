@@ -1,5 +1,5 @@
+import { APP_API } from '@/app/services/index.ts';
 import { AppStorage, createStorage, File } from '@/app/services/storage.ts';
-import { USER_API } from '@/modules/user/services';
 import { useUserStore } from '@/modules/user/stores/user.ts';
 import { UnlistenFn } from '@tauri-apps/api/event';
 import { getCurrentWebview } from '@tauri-apps/api/webview';
@@ -55,7 +55,7 @@ export class DeepLinkListenerService {
       });
 
       await info('accessToken is set');
-      await USER_API.auth.checkAndRefreshToken();
+      await APP_API.app.init(false);
       // oxlint-disable-next-line no-unused-vars
     } catch (err) {
       await error(`Failed to parse URL: ${url}`);

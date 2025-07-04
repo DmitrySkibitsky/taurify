@@ -4,6 +4,12 @@ export const userRoutes: RouteRecordRaw[] = [
   {
     path: '/user',
     component: () => import('@/app/components/AppLayout.vue'),
-    children: [],
+    children: [
+      {
+        path: 'profile',
+        component: () => import('@/modules/user/views/UserProfile.vue'),
+        name: 'user.profile',
+      },
+    ],
   },
 ];

@@ -30,6 +30,12 @@ export interface IUserProfile {
 
 export class UserProfileService {
   public async me(): Promise<IUserProfile | null> {
+    const userStorage = useUserStore();
+
+    if (!userStorage.isLoggedIn) {
+      return null;
+    }
+
     const response = await http.get<IUserProfile>('/me');
 
     if (response.status !== 200) {
@@ -37,8 +43,6 @@ export class UserProfileService {
     }
 
     const userProfile: IUserProfile = toCamelCase(response.data);
-
-    const userStorage = useUserStore();
 
     userStorage.setUserProfile(userProfile);
 

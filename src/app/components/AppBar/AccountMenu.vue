@@ -1,9 +1,16 @@
 <script setup lang="ts">
   import { MenuItem } from '@/app/types/menu.ts';
-  import { useUserStore } from '@/modules/user/stores/user.ts';
+  import UserAvatar from '@/modules/user/components/user_profile/UserAvatar.vue';
   import { ref } from 'vue';
 
   const links = ref<MenuItem[]>([
+    {
+      title: 'Profile',
+      icon: 'mdi-account',
+      to: {
+        name: 'user.profile',
+      },
+    },
     {
       title: 'Settings',
       icon: 'mdi-cog',
@@ -12,22 +19,17 @@
       },
     },
   ]);
-
-  const userStore = useUserStore();
 </script>
 
 <template>
+  <VDivider vertical />
   <VBtn
-    class="text-none me-2"
+    class="text-none me-2 ms-2"
     height="48"
     icon
     slim
   >
-    <VAvatar
-      color="surface-light"
-      :image="userStore.userProfile?.images[0]?.url"
-      size="32"
-    />
+    <UserAvatar />
 
     <VMenu activator="parent">
       <VList>

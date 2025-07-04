@@ -19,11 +19,14 @@ export class AuthService {
   private readonly accountsURI: string;
   private readonly redirectURI: string;
   private readonly clientId: string;
+  private readonly backendURL: string;
 
   constructor() {
     this.accountsURI = import.meta.env.VITE_SPOTIFY_ACCOUNT_URI;
     this.redirectURI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
     this.clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    this.clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    this.backendURL = import.meta.env.VITE_BACKEND_URL;
   }
 
   private getAuthUri(): string {
@@ -39,27 +42,25 @@ export class AuthService {
   private async refreshToken(
     accessToken: AccessTokenDTO
   ): Promise<AccessTokenDTO | boolean> {
-    const data = {
-      grant_type: 'refresh_token',
-      refresh_token: accessToken.refresh_token,
-      client_id: this.clientId,
-    };
-
     const response = await http.post<AccessTokenDTO>(
-      `${this.accountsURI}/api/token`,
-      data,
+      `${this.backendURL}/api/spotify/refresh_token`,
       {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        refresh_token: accessToken.refresh_token,
       }
     );
+
+    if (response.status !== 200) {
+      return false;
+    }
 
     if (response.data) {
       const newAccessToken: AccessTokenDTO = {
         ...response.data,
         created_at: DateTime.now().toISO(),
       };
+      if (!newAccessToken.refresh_token) {
+        newAccessToken.refresh_token = accessToken.refresh_token;
+      }
 
       const userStore = useUserStore();
       await userStore.setAccessToken(newAccessToken);

@@ -12,6 +12,11 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     updateAuthStatus(status: boolean): void {
       this.isLoggedIn = status;
+
+      if (!this.isLoggedIn) {
+        this.userProfile = null;
+        this.accessToken = null;
+      }
     },
     async setAccessToken(data: AccessTokenDTO): Promise<void> {
       this.accessToken = data;
