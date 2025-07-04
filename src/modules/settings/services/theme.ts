@@ -1,4 +1,5 @@
 import { AppStorage, createStorage, File } from '@/app/services/storage.ts';
+import { MdiIcon } from '@/app/types/mdi-icons.ts';
 import { useSettingsStore } from '@/modules/settings/stores/settings.ts';
 import { ThemeInstance } from 'vuetify/lib/types.mjs';
 
@@ -10,6 +11,7 @@ export const enum ThemeEnum {
 export interface ITheme {
   key: ThemeEnum;
   name: string;
+  icon: MdiIcon;
 }
 
 let storage: AppStorage | null = null;
@@ -27,10 +29,12 @@ export class ThemeService {
     {
       key: ThemeEnum.LIGHT,
       name: 'Light',
+      icon: 'mdi-white-balance-sunny',
     },
     {
       key: ThemeEnum.DARK,
       name: 'Dark',
+      icon: 'mdi-weather-night',
     },
   ];
 
@@ -62,7 +66,15 @@ export class ThemeService {
 
   public async toggleTheme(themeInstance: ThemeInstance): Promise<void> {
     const isDark = themeInstance.global.current.value.dark;
-    themeInstance.global.name.value = isDark ? ThemeEnum.LIGHT : ThemeEnum.DARK;
+
+    const theme: ITheme = this.getThemeByKey(
+      isDark ? ThemeEnum.LIGHT : ThemeEnum.DARK
+    );
+
+    themeInstance.global.name.value = theme.key;
+
+    const settingsStore = useSettingsStore();
+    settingsStore.setAppTheme(theme);
   }
 
   public async setTheme(

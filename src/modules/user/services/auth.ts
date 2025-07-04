@@ -1,90 +1,111 @@
-import http from '@/app/services/api.ts';
+import http from '@/app/services/http.ts';
 import { USER_API } from '@/modules/user/services';
-import { AccessTokenDTO } from '@/modules/user/services/types/auth.ts';
 import { useUserStore } from '@/modules/user/stores/user.ts';
 import { isTokenExpired } from '@/modules/user/utils/auth.ts';
 import { info } from '@tauri-apps/plugin-log';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { DateTime } from 'luxon';
 
-const accountsURI = import.meta.env.VITE_SPOTIFY_ACCOUNT_URI;
-const redirectURI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
-const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+export interface AccessTokenDTO {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+  token_type: string;
+  created_at: string;
+}
 
-const getAuthUri = (): string => {
-  const url = new URL(`${accountsURI}/authorize`);
-  url.searchParams.set('client_id', import.meta.env.VITE_SPOTIFY_CLIENT_ID);
-  url.searchParams.set('response_type', 'code');
-  url.searchParams.set('redirect_uri', redirectURI);
-  url.searchParams.set('scope', import.meta.env.VITE_SPOTIFY_SCOPES);
+export class AuthService {
+  private readonly accountsURI: string;
+  private readonly redirectURI: string;
+  private readonly clientId: string;
+  private readonly backendURL: string;
 
-  return url.toString();
-};
+  constructor() {
+    this.accountsURI = import.meta.env.VITE_SPOTIFY_ACCOUNT_URI;
+    this.redirectURI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+    this.clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    this.clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    this.backendURL = import.meta.env.VITE_BACKEND_URL;
+  }
 
-const refreshToken = async (
-  accessToken: AccessTokenDTO
-): Promise<AccessTokenDTO | boolean> => {
-  const data = {
-    grant_type: 'refresh_token',
-    refresh_token: accessToken.refresh_token,
-    client_id: clientId,
-  };
+  private getAuthUri(): string {
+    const url = new URL(`${this.accountsURI}/authorize`);
+    url.searchParams.set('client_id', this.clientId);
+    url.searchParams.set('response_type', 'code');
+    url.searchParams.set('redirect_uri', this.redirectURI);
+    url.searchParams.set('scope', import.meta.env.VITE_SPOTIFY_SCOPES);
 
-  const response = await http.post(`${accountsURI}/api/token`, data, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
+    return url.toString();
+  }
 
-  if (response.status !== 200) {
+  private async refreshToken(
+    accessToken: AccessTokenDTO
+  ): Promise<AccessTokenDTO | boolean> {
+    const response = await http.post<AccessTokenDTO>(
+      `${this.backendURL}/api/spotify/refresh_token`,
+      {
+        refresh_token: accessToken.refresh_token,
+      }
+    );
+
+    if (response.status !== 200) {
+      return false;
+    }
+
+    if (response.data) {
+      const newAccessToken: AccessTokenDTO = {
+        ...response.data,
+        created_at: DateTime.now().toISO(),
+      };
+      if (!newAccessToken.refresh_token) {
+        newAccessToken.refresh_token = accessToken.refresh_token;
+      }
+
+      const userStore = useUserStore();
+      await userStore.setAccessToken(newAccessToken);
+
+      return newAccessToken;
+    }
+
     return false;
   }
 
-  if (response.data) {
-    const accessToken: AccessTokenDTO = {
-      access_token: response.data.access_token,
-      expires_in: response.data.expires_in,
-      refresh_token: response.data.refresh_token,
-      scope: response.data.scope,
-      token_type: response.data.token_type,
-      created_at: DateTime.now().toISO(),
-    };
+  public async checkAndRefreshToken(): Promise<void> {
+    const accessToken: AccessTokenDTO | undefined =
+      await USER_API.userStorage.getAccessToken();
 
-    const userStore = useUserStore();
+    if (accessToken) {
+      const tokenExpired: boolean = isTokenExpired(accessToken);
 
-    await userStore.setAccessToken(accessToken);
+      await info(`tokenExpired: ${tokenExpired}`);
 
-    return accessToken;
-  }
+      if (tokenExpired) {
+        const newAccessToken: boolean | AccessTokenDTO =
+          await this.refreshToken(accessToken);
 
-  return false;
-};
-
-const checkAndRefreshToken = async (): Promise<void> => {
-  const accessToken: AccessTokenDTO | undefined =
-    await USER_API.userStorage.getAccessToken();
-
-  if (accessToken) {
-    const tokenExpired: boolean = isTokenExpired(accessToken);
-
-    await info(`tokenExpired: ${tokenExpired}`);
-
-    if (tokenExpired) {
-      const newAccessToken: boolean | AccessTokenDTO =
-        await refreshToken(accessToken);
-
-      if (!newAccessToken) {
-        await USER_API.userStorage.resetAccessToken();
+        if (!newAccessToken) {
+          await USER_API.userStorage.resetAccessToken();
+        }
       }
     }
   }
-};
 
-const login = async (): Promise<void> => {
-  await openUrl(getAuthUri());
-};
+  public async login(): Promise<void> {
+    await openUrl(this.getAuthUri());
+  }
 
-export default {
-  login,
-  checkAndRefreshToken,
-};
+  public async init(): Promise<void> {
+    const accessToken: AccessTokenDTO | undefined =
+      await USER_API.userStorage.getAccessToken();
+
+    if (accessToken) {
+      const userStore = useUserStore();
+      await userStore.setAccessToken(accessToken);
+    }
+
+    await this.checkAndRefreshToken();
+  }
+}
+
+export default new AuthService();

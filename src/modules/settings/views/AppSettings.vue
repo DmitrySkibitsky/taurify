@@ -16,16 +16,6 @@
         )
       ),
     },
-    {
-      key: TabKeyEnum.userProfile,
-      title: 'User Profile',
-      icon: 'mdi-account-settings',
-      component: markRaw(
-        defineAsyncComponent(
-          () => import('@/modules/settings/components/UserProfile.vue')
-        )
-      ),
-    },
   ];
 
   const tab = ref<string>(TabKeyEnum.appSettings);

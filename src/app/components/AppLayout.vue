@@ -14,7 +14,6 @@
     try {
       await APP_API.app.init();
     } catch (e) {}
-    await APP_API.deepLinkListener.init();
   });
 
   onUnmounted(() => {

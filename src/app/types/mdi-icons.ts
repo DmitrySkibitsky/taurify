@@ -4,4 +4,6 @@ export type MdiIcon =
   | 'mdi-view-dashboard-outline'
   | 'mdi-account'
   | 'mdi-login'
+  | 'mdi-white-balance-sunny'
+  | 'mdi-weather-night'
   | 'mdi-settings';
