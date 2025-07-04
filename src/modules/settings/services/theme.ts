@@ -34,7 +34,7 @@ export class ThemeService {
     {
       key: ThemeEnum.DARK,
       name: 'Dark',
-      icon: 'mdi-moon-waning-crescent',
+      icon: 'mdi-weather-night',
     },
   ];
 

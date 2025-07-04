@@ -5,5 +5,5 @@ export type MdiIcon =
   | 'mdi-account'
   | 'mdi-login'
   | 'mdi-white-balance-sunny'
-  | 'mdi-moon-waning-crescent'
+  | 'mdi-weather-night'
   | 'mdi-settings';
