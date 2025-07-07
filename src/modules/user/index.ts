@@ -1,8 +1,8 @@
-import { userRoutes } from '@/modules/user/routes.ts';
+import { routes } from '@/modules/user/routes.ts';
 import { useUserStore } from '@/modules/user/stores/user.ts';
 
 export default {
-  routes: userRoutes,
+  routes: routes,
   stores: [useUserStore],
   async init(): Promise<string> {
     return new Promise((resolve): void => {

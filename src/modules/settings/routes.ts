@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-export const settingsRoutes: RouteRecordRaw[] = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/settings',
     component: () => import('@/app/components/AppLayout.vue'),
