@@ -3,7 +3,6 @@
 ### Technology Stack
 - Frontend: Vue + TypeScript
 - Desktop Framework: Tauri 2.0
-- Styling: Tailwind CSS
 - State Management: Pinia
 - Build Tool: Vite
 
