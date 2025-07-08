@@ -73,6 +73,10 @@ export class ThemeService {
 
     themeInstance.global.name.value = theme.key;
 
+    storage = await getStorage();
+
+    await storage.set('appTheme', theme.key);
+
     const settingsStore = useSettingsStore();
     settingsStore.setAppTheme(theme);
   }
