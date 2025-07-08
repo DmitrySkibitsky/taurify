@@ -41,6 +41,15 @@
   onMounted(() => {
     timeRanges.value = ARTISTS_MODULE.artists.getTimeRanges();
 
+    if (
+      selectedTimeRange.value === null &&
+      userTopArtistsRequest.value !== null
+    ) {
+      selectedTimeRange.value = ARTISTS_MODULE.artists.getTimeRangeByEnum(
+        userTopArtistsRequest.value.time_range
+      );
+    }
+
     if (topArtists.value.length === 0) {
       loadArtists();
     }
