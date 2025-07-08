@@ -4,6 +4,7 @@
   import { useUserStore } from '@/modules/user/stores/user.ts';
   import { storeToRefs } from 'pinia';
   import { Ref } from 'vue';
+  import TopArtistsCarousel from '@/modules/user/components/user_profile/TopArtistsCarousel.vue';
 
   const userStore = useUserStore();
 
@@ -36,5 +37,9 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="mt-10">
+    <TopArtistsCarousel />
   </div>
 </template>

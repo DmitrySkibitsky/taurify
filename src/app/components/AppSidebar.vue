@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { MenuItem } from '@/app/types/menu.ts';
   import { useSettingsStore } from '@/modules/settings/stores/settings';
-  import { USER_API } from '@/modules/user/services';
+  import { USER_MODULE } from '@/modules/user/services';
   import { storeToRefs } from 'pinia';
   import { ref } from 'vue';
 
@@ -21,7 +21,7 @@
       title: 'Sign In',
       icon: 'mdi-login',
       onClick: () => {
-        USER_API.auth.login();
+        USER_MODULE.auth.login();
       },
     },
     {

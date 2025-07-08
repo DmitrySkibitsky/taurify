@@ -1,39 +1,41 @@
 <script setup lang="ts">
-  import { SETTINGS_API } from '@/modules/settings/services';
+  import { SETTINGS_MODULE } from '@/modules/settings/services';
   import { ThemeEnum } from '@/modules/settings/services/theme.ts';
   import { IZoomItem, SLIDER_STEP } from '@/modules/settings/services/zoom.ts';
   import { debounce } from '@/utils/debounce.ts';
   import { ref, watch } from 'vue';
   import { useTheme } from 'vuetify/framework';
 
-  const allThemes = SETTINGS_API.theme.getThemes();
+  const allThemes = SETTINGS_MODULE.theme.getThemes();
 
   // > theme
-  const theme = ref<ThemeEnum>(SETTINGS_API.theme.getCurrentTheme().key);
+  const theme = ref<ThemeEnum>(SETTINGS_MODULE.theme.getCurrentTheme().key);
 
   const themeInstance = useTheme();
 
   watch(
     () => theme.value,
     (value: ThemeEnum) => {
-      const theme = SETTINGS_API.theme.getThemeByKey(value);
+      const theme = SETTINGS_MODULE.theme.getThemeByKey(value);
 
-      SETTINGS_API.theme.setTheme(themeInstance, theme);
+      SETTINGS_MODULE.theme.setTheme(themeInstance, theme);
     }
   );
   // < theme
 
   // > zoom
-  const zoomMax = SETTINGS_API.zoom.getZoomMaxTickValue();
-  const zoomTickSize = SETTINGS_API.zoom.getTickSize();
-  const zoomItems = SETTINGS_API.zoom.getSliderTickLabels();
-  const zoomValue = SETTINGS_API.zoom.getZoomValue();
-  const zoomTickValue = ref<number>(SETTINGS_API.zoom.getTickValue(zoomValue));
+  const zoomMax = SETTINGS_MODULE.zoom.getZoomMaxTickValue();
+  const zoomTickSize = SETTINGS_MODULE.zoom.getTickSize();
+  const zoomItems = SETTINGS_MODULE.zoom.getSliderTickLabels();
+  const zoomValue = SETTINGS_MODULE.zoom.getZoomValue();
+  const zoomTickValue = ref<number>(
+    SETTINGS_MODULE.zoom.getTickValue(zoomValue)
+  );
 
   const debounceSetZoom = debounce((tickValue: number) => {
     const zoomItem: IZoomItem =
-      SETTINGS_API.zoom.getZoomItemByTickValue(tickValue);
-    SETTINGS_API.zoom.setZoomValue(zoomItem);
+      SETTINGS_MODULE.zoom.getZoomItemByTickValue(tickValue);
+    SETTINGS_MODULE.zoom.setZoomValue(zoomItem);
   }, 1000);
 
   watch(

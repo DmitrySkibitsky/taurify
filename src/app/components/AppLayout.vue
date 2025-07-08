@@ -2,14 +2,14 @@
   import AppBar from '@/app/components/AppBar.vue';
   import AppSidebar from '@/app/components/AppSidebar.vue';
   import { APP_API } from '@/app/services';
-  import { SETTINGS_API } from '@/modules/settings/services';
+  import { SETTINGS_MODULE } from '@/modules/settings/services';
   import { onMounted, onUnmounted } from 'vue';
   import { useTheme } from 'vuetify/framework';
 
   onMounted(async () => {
     const themeInstance = useTheme();
 
-    await SETTINGS_API.theme.init(themeInstance);
+    await SETTINGS_MODULE.theme.init(themeInstance);
 
     try {
       await APP_API.app.init();

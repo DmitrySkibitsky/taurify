@@ -23,7 +23,11 @@
 
 <template>
   <VCard>
-    <div style="width: 100%">
+    <div
+      :style="{
+        width: '100%',
+      }"
+    >
       <VTabs
         v-model="tab"
         align-tabs="center"

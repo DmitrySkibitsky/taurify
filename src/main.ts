@@ -1,6 +1,12 @@
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  type NavigationGuardNext,
+  type RouteLocationNormalized,
+  RouteRecordRaw,
+} from 'vue-router';
 
 import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
@@ -114,6 +120,27 @@ const router = createRouter({
   history: createWebHistory(),
   routes: allRoutes,
 });
+router.beforeEach(
+  async (
+    to: RouteLocationNormalized,
+    _from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) => {
+    const { useUserStore } = await import('@/modules/user/stores/user.ts');
+    const userStore = useUserStore();
+    if (to.meta.requiresAuth) {
+      const isLoggedIn = await userStore.waitForLogin(2000);
+
+      if (!isLoggedIn) {
+        next('/');
+
+        return;
+      }
+    }
+
+    next();
+  }
+);
 
 app.use(router);
 

@@ -12,6 +12,14 @@
     width: 250,
     height: 300,
   });
+
+  const emit = defineEmits<{
+    play: [artist: IArtist];
+  }>();
+
+  const handlePlay = (artist: IArtist) => {
+    emit('play', artist);
+  };
 </script>
 
 <template>
@@ -20,9 +28,9 @@
       v-for="artist in artists"
       :key="artist.id"
       :artist="artist"
-      :width="width"
-      :height="height"
-      @play="() => {}"
+      :width="props.width"
+      :height="props.height"
+      @play="handlePlay"
     />
   </div>
 </template>
@@ -32,6 +40,5 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 20px;
-    padding: 20px;
   }
 </style>

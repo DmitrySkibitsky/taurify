@@ -1,10 +1,10 @@
 import { APP_API } from '@/app/services/index.ts';
-import { USER_API } from '@/modules/user/services';
+import { USER_MODULE } from '@/modules/user/services';
 import { info } from '@tauri-apps/plugin-log';
 
 const init = async (enableDeepLink: boolean = true): Promise<void> => {
-  await USER_API.auth.init();
-  await USER_API.userProfile.init();
+  await USER_MODULE.auth.init();
+  await USER_MODULE.userProfile.init();
 
   await info('app init');
 

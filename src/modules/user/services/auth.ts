@@ -1,5 +1,5 @@
 import http from '@/app/services/http.ts';
-import { USER_API } from '@/modules/user/services';
+import { USER_MODULE } from '@/modules/user/services';
 import { useUserStore } from '@/modules/user/stores/user.ts';
 import { isTokenExpired } from '@/modules/user/utils/auth.ts';
 import { info } from '@tauri-apps/plugin-log';
@@ -73,7 +73,7 @@ export class AuthService {
 
   public async checkAndRefreshToken(): Promise<void> {
     const accessToken: AccessTokenDTO | undefined =
-      await USER_API.userStorage.getAccessToken();
+      await USER_MODULE.userStorage.getAccessToken();
 
     if (accessToken) {
       const tokenExpired: boolean = isTokenExpired(accessToken);
@@ -85,7 +85,7 @@ export class AuthService {
           await this.refreshToken(accessToken);
 
         if (!newAccessToken) {
-          await USER_API.userStorage.resetAccessToken();
+          await USER_MODULE.userStorage.resetAccessToken();
         }
       }
     }
@@ -97,7 +97,7 @@ export class AuthService {
 
   public async init(): Promise<void> {
     const accessToken: AccessTokenDTO | undefined =
-      await USER_API.userStorage.getAccessToken();
+      await USER_MODULE.userStorage.getAccessToken();
 
     if (accessToken) {
       const userStore = useUserStore();

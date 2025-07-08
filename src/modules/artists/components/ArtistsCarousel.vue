@@ -6,6 +6,7 @@
   interface Props {
     artists: IArtist[];
     title?: string;
+    subtitle?: string;
     cardWidth?: number | string;
     cardHeight?: number | string;
     showArrows?: boolean;
@@ -75,7 +76,6 @@
 
   onMounted(() => {
     updateContainerWidth();
-
     window.addEventListener('resize', handleResize);
   });
 
@@ -87,18 +87,33 @@
 <template>
   <div
     ref="containerRef"
-    class="artists-carousel-container"
+    class="w-100"
   >
-    <h2
-      v-if="title"
-      class="carousel-title"
-    >
-      {{ title }}
-    </h2>
+    <div class="d-flex justify-space-between align-start mb-5 ga-5">
+      <div class="flex-1-1">
+        <h2
+          v-if="title"
+          class="text-h5 font-weight-medium mb-2"
+        >
+          {{ title }}
+        </h2>
+
+        <p
+          v-if="subtitle"
+          class="text-subtitle-1 text-medium-emphasis ma-0"
+        >
+          {{ subtitle }}
+        </p>
+      </div>
+
+      <div class="flex-shrink-0 d-flex align-center">
+        <slot name="actions" />
+      </div>
+    </div>
 
     <VCarousel
       v-model="currentSlide"
-      class="artists-carousel"
+      class="rounded-lg"
       :show-arrows="showArrows"
       :hide-delimiters="hideDelimiters"
       :continuous="continuous"
@@ -109,12 +124,13 @@
       <VCarouselItem
         v-for="(slideArtists, index) in artistSlides"
         :key="index"
-        class="carousel-slide"
+        class="pa-0"
       >
-        <div class="artists-grid">
+        <div class="d-flex justify-center align-start ga-5">
           <ArtistCard
             v-for="artist in slideArtists"
             :key="artist.id"
+            class="flex-shrink-0"
             :artist="artist"
             :width="cardWidth"
             :height="cardHeight"
@@ -127,41 +143,19 @@
 </template>
 
 <style scoped>
-  .artists-carousel-container {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .carousel-title {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .artists-carousel {
-    border-radius: 12px;
-  }
-
-  .artists-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: nowrap;
-  }
-
   @media (max-width: 768px) {
-    .artists-grid {
-      gap: 15px;
+    .d-flex.ga-5 {
+      gap: 15px !important;
     }
   }
 
   @media (max-width: 480px) {
-    .artists-grid {
-      gap: 15px;
+    .d-flex.ga-5 {
+      gap: 15px !important;
     }
 
-    .carousel-slide {
-      padding: 15px;
+    .pa-0 {
+      padding: 15px !important;
     }
   }
 </style>

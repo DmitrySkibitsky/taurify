@@ -1,5 +1,5 @@
 import { routes } from '@/modules/settings/routes.ts';
-import { SETTINGS_API } from '@/modules/settings/services';
+import { SETTINGS_MODULE } from '@/modules/settings/services';
 import { useSettingsStore } from '@/modules/settings/stores/settings.ts';
 
 export default {
@@ -7,7 +7,7 @@ export default {
   stores: [useSettingsStore],
   async init(): Promise<string> {
     return new Promise((resolve): void => {
-      SETTINGS_API.zoom.init();
+      SETTINGS_MODULE.zoom.init();
 
       const message: string = '[settings] Module initialized';
 

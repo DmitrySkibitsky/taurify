@@ -18,7 +18,7 @@
   }>();
 
   const artistImage = computed(() => {
-    return props.artist.images?.[0]?.url || '/placeholder-artist.jpg';
+    return props.artist.images?.[0]?.url || '';
   });
 
   const onPlayClick = () => {
@@ -28,22 +28,21 @@
 
 <template>
   <VCard
-    class="artist-card"
+    class="rounded-lg overflow-hidden flex-shrink-0"
     :width="width"
     :height="height"
     elevation="2"
-    hover
   >
-    <div class="artist-image-container">
+    <div class="position-relative overflow-hidden">
       <VImg
-        class="artist-image"
+        class="rounded-lg"
         :src="artistImage"
         :alt="artist.name"
         :height="height"
         cover
       >
         <VBtn
-          class="play-btn"
+          class="position-absolute artist-play-btn"
           icon
           color="primary"
           size="large"
@@ -52,8 +51,10 @@
           <VIcon>mdi-play</VIcon>
         </VBtn>
 
-        <div class="artist-name-overlay">
-          <h3 class="artist-name">{{ artist.name }}</h3>
+        <div class="position-absolute artist-name-overlay">
+          <h3 class="text-white text-h6 font-weight-medium">
+            {{ artist.name }}
+          </h3>
         </div>
       </VImg>
     </div>
@@ -61,28 +62,34 @@
 </template>
 
 <style scoped>
-  .artist-card {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: none;
-  }
-
-  .artist-image-container {
-    position: relative;
-  }
-
-  .artist-image {
-    border-radius: 15px;
-  }
-
-  .play-btn {
-    position: absolute;
+  .artist-play-btn {
     top: 12px;
     right: 12px;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .artist-play-btn:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .artist-play-btn:focus {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .artist-play-btn:active {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .artist-play-btn * {
+    transition: none !important;
+    transform: none !important;
   }
 
   .artist-name-overlay {
-    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -90,10 +97,7 @@
     background: linear-gradient(transparent, rgba(0, 0, 0, 1));
   }
 
-  .artist-name {
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
+  .artist-name-overlay h3 {
     text-shadow: 0 1px 30px rgba(0, 0, 0, 0.5);
     line-height: 1.3;
   }
