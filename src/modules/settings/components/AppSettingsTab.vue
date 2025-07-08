@@ -60,8 +60,8 @@
     <VCol cols="12">
       <div class="text-caption">Zoom</div>
       <VSlider
-        :ticks="zoomItems"
         v-model="zoomTickValue"
+        :ticks="zoomItems"
         show-ticks="always"
         :max="zoomMax"
         :step="SLIDER_STEP"

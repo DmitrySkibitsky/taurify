@@ -36,15 +36,15 @@
   >
     <div class="artist-image-container">
       <VImg
+        class="artist-image"
         :src="artistImage"
         :alt="artist.name"
         :height="height"
         cover
-        class="artist-image"
       >
         <VBtn
-          icon
           class="play-btn"
+          icon
           color="primary"
           size="large"
           @click="onPlayClick"

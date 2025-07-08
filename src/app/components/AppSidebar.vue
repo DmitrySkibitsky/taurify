@@ -63,10 +63,10 @@
       <VListItem
         v-for="(link, index) in appendLinks"
         :key="index"
+        class="ma-2"
         :to="link.to"
         :prepend-icon="link.icon"
         :title="link.title"
-        class="ma-2"
         link
         nav
         @click="handleLinkClick(link)"

@@ -98,13 +98,13 @@
 
     <VCarousel
       v-model="currentSlide"
+      class="artists-carousel"
       :show-arrows="showArrows"
       :hide-delimiters="hideDelimiters"
       :continuous="continuous"
       :cycle="cycle"
       :interval="interval"
       height="auto"
-      class="artists-carousel"
     >
       <VCarouselItem
         v-for="(slideArtists, index) in artistSlides"

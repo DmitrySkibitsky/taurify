@@ -8,8 +8,8 @@
 
 <template>
   <VAppBar
-    border="b"
     class="ps-4"
+    border="b"
     flat
   >
     <VAppBarNavIcon

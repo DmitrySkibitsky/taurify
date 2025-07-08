@@ -79,8 +79,8 @@
           icon
           variant="text"
           size="small"
-          @click="togglePlay(item)"
           :color="item.isPlaying ? 'primary' : 'default'"
+          @click="togglePlay(item)"
         >
           <VIcon>
             {{ item.isPlaying ? 'mdi-pause' : 'mdi-play' }}
@@ -98,11 +98,11 @@
         <div class="d-flex align-center">
           <div class="album-cover-container">
             <VImg
+              class="me-3"
               :src="item.album.images[2]?.url"
               :alt="item.album.name"
               width="40"
               height="40"
-              class="me-3"
               cover
             />
           </div>
